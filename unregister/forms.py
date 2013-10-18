@@ -1,7 +1,7 @@
 from generic.forms import ActionForm
 from rapidsms.models import Connection
 from unregister.models import Blacklist
-
+from django.utils.translation import ugettext as _
 class BlacklistForm(ActionForm):
     """ abstract class for all the filter forms"""
     action_label = 'Blacklist/Opt-out Users'
@@ -10,6 +10,6 @@ class BlacklistForm(ActionForm):
             connections = Connection.objects.filter(contact__in=results)
             for c in connections:
                 Blacklist.objects.get_or_create(connection=c)
-            return ('You blacklisted %d numbers' % len(connections), 'success',)
+            return (_("'You blacklisted %(connections)d numbers'" % {"connections":len(connections)}), 'success',)
         else:
-            return ("You don't have permissions to blacklist numbers", 'error',)
+            return (_("You don't have permissions to blacklist numbers"), 'error',)
