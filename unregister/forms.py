@@ -10,6 +10,6 @@ class BlacklistForm(ActionForm):
             connections = Connection.objects.filter(contact__in=results)
             for c in connections:
                 Blacklist.objects.get_or_create(connection=c)
-            return (_("'You blacklisted %(connections)d numbers'" % {"connections":len(connections)}), 'success',)
+            return (_("You blacklisted %(connections)d numbers") % {"connections":len(connections)}, 'success',)
         else:
             return (_("You don't have permissions to blacklist numbers"), 'error',)
