@@ -8,8 +8,9 @@ from django.utils.translation import ugettext as _
 
 class App(AppBase):
     def handle(self, message):
-        #make sure the message is striped for example we want a user sendingh in "quit" to be seen as quit
-        msg_txt = ' '.join(re.findall(r'\w+', message.text.lower()))
+        msg_txt = ' '.join(re.findall(r'\w+', message.text.lower(), re.UNICODE))
+
+        msg_txt = msg_txt.encode('utf-8')
         if msg_txt in getattr(settings, 'OPT_IN_WORDS', []) and Blacklist.objects.filter(
                 connection=message.connection).count():
             for b in Blacklist.objects.filter(connection=message.connection):
